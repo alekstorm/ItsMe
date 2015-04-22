@@ -1,0 +1,2 @@
+;; cluster:S3 [ score:FS = 0.0 ] [ score:FT = 0.0 ] [ score:MS = 0.0 ] [ score:MT = 0.0 ]
+bar/S3 1 0 1425 F S U S3

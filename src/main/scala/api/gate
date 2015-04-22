@@ -1,0 +1,76 @@
+        //samples.order(ByteOrder.LITTLE_ENDIAN)
+        val outBuffer = ByteBuffer.allocate(samples.limit)
+        outBuffer.order(ByteOrder.LITTLE_ENDIAN)
+
+        // TODO do noise-gating client-side - increases compressibility
+        trait State
+        case object Closed extends State
+        //case object Attacking extends State
+        case object Open extends State
+        case object Holding extends State
+        //case object Releasing extends State
+
+        val interval = 50
+        //val attack = 4000
+        //val release = 8000
+        val hold = 4000
+        val openThreshold = 1000 //8750
+        val closeThreshold = 0 //8000
+
+        var state: State = Closed
+        var inState = 0
+
+        var average = (0 until (interval * 2 + 1)).map(j => math.abs(samples.getShort(j).toLong)).sum / (interval * 2 + 1)
+
+        def changeState(newState: State) {
+          state = newState
+          inState = 0
+        }
+
+        for (i <- ((interval + 1) until (samples.limit / 2 - interval))) {
+          val value = samples.getShort(i)
+          average += (math.abs(samples.getShort(i + interval)) - math.abs(samples.getShort(i - interval - 1))) / (interval * 2 + 1)
+          val output =
+            if (average >= openThreshold) {
+              outBuffer.putShort(i, samples.getShort(i))
+              state match {
+                case Closed =>
+                  changeState(Open)
+                  value
+                case Open =>
+                  value
+                case Holding =>
+                  changeState(Open)
+                  value
+              }
+            }
+            else if (average < closeThreshold) {
+              state match {
+                case Closed =>
+                  0.toShort
+                case Open =>
+                  state = Holding
+                  inState = 0
+                  value
+                case Holding =>
+                  inState += 1
+                  if (inState >= hold) {
+                    state = Closed
+                    inState = 0
+                  }
+                  value
+              }
+            }
+            else {
+              state match {
+                case Closed =>
+                  0.toShort
+                case Open =>
+                  value
+                case Holding =>
+                  changeState(Open)
+                  value
+              }
+            }
+            outBuffer.putShort(i, output)
+        }

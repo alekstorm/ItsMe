@@ -1,0 +1,21 @@
+- live spectrogram/envelope/amplitude (EQ?) column effect - tests microphone
+  - automatically detect microphone problems - too much silence, too much gain, etc
+- single HMM, instead of GMM+HMM
+- adversary generating speech with vocoder?
+  - that's what other factor is for
+- send FLAC (lossless, supports more resolutions than ALAC)
+- keep asking words until confidence threshold is reached or we hit max words - allows us to accept/fail early for high confidence
+- present one word at a time, no keyboard/mouse input required
+- send mobile code to phone on failure, or present user with security questions
+- three attempts before moving on to the next word automatically; record failures
+- use WordNet to eliminate words with negative/sexual connotations
+- WebRTC, but with perfect QoS over WebSockets - custom buffering
+- use speaker adaptation for speech recognition part (assume speaker is authenticating user)
+- progress bar for training/login
+- say/press "skip", "pause", "resume", "restart"
+- show spinny gif for processing individual words, running speaker recognition at the end
+- skip automatically after 5 seconds or so; don't advance progress bar
+- if login fails, user must re-enter password
+- http://stackoverflow.com/questions/7411563/speech-recognition-response-is-poor-in-sphinx4
+- emit test sound (pink noise?) to correct for environment (room) acoustics, establish lower bound for surrounding noise
+- longer phrases - only possible once pronunciation evaluation is implemented

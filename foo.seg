@@ -1,0 +1,11 @@
+;; cluster:S1 [ score:FS = 0.0 ] [ score:FT = 0.0 ] [ score:MS = 0.0 ] [ score:MT = 0.0 ]
+bar 1 352 995 F T U S1
+bar 1 1348 158 F T U S1
+bar 1 1507 1263 F T U S1
+bar 1 2801 187 F T U S1
+bar 1 3014 286 F T U S1
+bar 1 3304 241 F T U S1
+bar 1 3549 636 F T U S1
+bar 1 4189 174 F T U S1
+;; cluster:S0 [ score:FS = 0.0 ] [ score:FT = 0.0 ] [ score:MS = 0.0 ] [ score:MT = 0.0 ]
+bar 1 1 224 M S U S0
